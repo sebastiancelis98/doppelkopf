@@ -1,3 +1,4 @@
+import 'package:doppelkopf/pages/game/create_game_page.dart';
 import 'package:doppelkopf/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:doppelkopf/services/transitions/transition_utils.dart';
@@ -27,7 +28,7 @@ class Home extends StatelessWidget{
               margin: const EdgeInsets.symmetric(vertical: 50),
               child: FloatingActionButton(
               onPressed: () => {
-                Navigator.push(context, slideTransitionBuilder(const Settings(), SlideType.UP))
+                Navigator.push(context, slideTransitionBuilder(const CreateGamePage(), SlideType.UP))
               },
               child: const Icon(Icons.add)),
             ),

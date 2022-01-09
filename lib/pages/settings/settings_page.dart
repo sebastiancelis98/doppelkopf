@@ -8,13 +8,10 @@ class Settings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
-        leading: IconButton(
-          onPressed: () => {
-            Navigator.pop(context)
-        },
-        icon: const Icon(Icons.arrow_back)),
       ),
-      body: Center(),
+      body: const Center(
+        child: Text("Some settings..."),
+      ),
     );
   }
 }
