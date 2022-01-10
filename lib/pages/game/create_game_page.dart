@@ -42,27 +42,28 @@ class _NameFieldsState extends State<NameFields> {
   @override
   Widget build(BuildContext context) {
     final children = playerIds
-        .map((i) => {
-              TextFormField(
-                controller: controllers.elementAt(0),
+        .map((i) => Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: TextFormField(
+                controller: TextEditingController(),
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  labelText: 'Player 1',
+                  labelText: 'Player ' + i.toString(),
                   errorText: null,
-                  prefixIcon: Icon(Icons.person),
-                ),
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  prefixIcon: const Icon(Icons.person),
                 ),
                 onFieldSubmitted: (value) {
-                  print('Editing complete');
+                  if(i == playerIds.length){
+                    return;
+                  }
+                  // focusNodes.elementAt(i).requestFocus();
                 },
-              )
-            })
+              ),
+        ))
         .toList();
 
     return Column(children: children);
