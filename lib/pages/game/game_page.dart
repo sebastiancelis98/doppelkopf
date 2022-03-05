@@ -14,7 +14,7 @@ class GamePage extends StatelessWidget {
         .toList();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Doppelkopf"),
+        title: const Text("Game"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -57,10 +57,11 @@ class _PlayerCardState extends State<PlayerCard> {
                 Row(
                   children: [
                     FloatingActionButton(
-                      child: const Icon(Icons.plus_one),
+                      heroTag: widget.playerName+'_minus_btn',
+                      child: const Icon(Icons.exposure_minus_1_rounded),
                       onPressed: () => {
                         setState(() {
-                          points++;
+                          points--;
                         })
                       },
                     ),
@@ -68,10 +69,11 @@ class _PlayerCardState extends State<PlayerCard> {
                       width: 15,
                     ),
                     FloatingActionButton(
-                      child: const Icon(Icons.exposure_minus_1_rounded),
+                      heroTag: widget.playerName+'_plus_btn',
+                      child: const Icon(Icons.plus_one),
                       onPressed: () => {
                         setState(() {
-                          points--;
+                          points++;
                         })
                       },
                     )

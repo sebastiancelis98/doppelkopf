@@ -149,7 +149,7 @@ class _NameFieldsState extends State<NameFields> {
                   if (!widget._isValidField(value)) {
                     _errorText =
                         "Please enter a name between 4 and 15 characters!";
-                        focusNodes.elementAt(i).requestFocus();
+                    focusNodes.elementAt(i).requestFocus();
                   }
                   setState(() {
                     errorTexts[i] = _errorText;
