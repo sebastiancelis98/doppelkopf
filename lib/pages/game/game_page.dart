@@ -1,20 +1,23 @@
+import 'package:doppelkopf/model/game.dart';
+import 'package:doppelkopf/model/player.dart';
 import 'package:flutter/material.dart';
 
 class GamePage extends StatelessWidget {
-  final Set<String> playerNames;
 
-  const GamePage({Key? key, required this.playerNames}) : super(key: key);
+  Game game;
+
+  GamePage({Key? key, required this.game}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> playerCards = playerNames
-        .map((playerName) => PlayerCard(
-              playerName: playerName,
+    List<Widget> playerCards = game.players
+        .map((player) => PlayerCard(
+              player: player,
             ))
         .toList();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Game"),
+        title: Text(game.id),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -25,16 +28,15 @@ class GamePage extends StatelessWidget {
 }
 
 class PlayerCard extends StatefulWidget {
-  final String playerName;
+  final Player player;
 
-  const PlayerCard({Key? key, required this.playerName}) : super(key: key);
+  const PlayerCard({Key? key, required this.player}) : super(key: key);
 
   @override
   _PlayerCardState createState() => _PlayerCardState();
 }
 
 class _PlayerCardState extends State<PlayerCard> {
-  int points = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class _PlayerCardState extends State<PlayerCard> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  widget.playerName,
+                  widget.player.name,
                   style: const TextStyle(
                     fontSize: 20,
                   ),
@@ -57,11 +59,11 @@ class _PlayerCardState extends State<PlayerCard> {
                 Row(
                   children: [
                     FloatingActionButton(
-                      heroTag: widget.playerName+'_minus_btn',
+                      heroTag: widget.player.name + '_minus_btn',
                       child: const Icon(Icons.exposure_minus_1_rounded),
                       onPressed: () => {
                         setState(() {
-                          points--;
+                          widget.player.points--;
                         })
                       },
                     ),
@@ -69,11 +71,11 @@ class _PlayerCardState extends State<PlayerCard> {
                       width: 15,
                     ),
                     FloatingActionButton(
-                      heroTag: widget.playerName+'_plus_btn',
+                      heroTag: widget.player.name + '_plus_btn',
                       child: const Icon(Icons.plus_one),
                       onPressed: () => {
                         setState(() {
-                          points++;
+                          widget.player.points++;
                         })
                       },
                     )
@@ -83,7 +85,7 @@ class _PlayerCardState extends State<PlayerCard> {
             ),
             Center(
               child: Text(
-                points.toString(),
+                widget.player.points.toString(),
                 style: const TextStyle(
                   fontSize: 32,
                 ),

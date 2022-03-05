@@ -1,18 +1,18 @@
+import 'package:doppelkopf/model/game.dart';
+import 'package:doppelkopf/model/gamedata.dart';
+import 'package:doppelkopf/model/player.dart';
 import 'package:doppelkopf/pages/game/game_page.dart';
 import 'package:doppelkopf/services/transitions/transition_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class CreateGamePage extends StatelessWidget {
   const CreateGamePage({Key? key}) : super(key: key);
 
-  bool attemptGameCreation() {
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     NameFields nameFieldWidgets = NameFields();
-
+    GameData gameData = context.read<GameData>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Create a new game"),
@@ -45,16 +45,19 @@ class CreateGamePage extends StatelessWidget {
                   style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
                 ),
               ),
-              onPressed: () => {
-                if (nameFieldWidgets.allFieldsAreValid())
-                  {
-                    Navigator.of(context)
-                        .pushReplacement(slideTransitionBuilder(
-                            GamePage(
-                              playerNames: nameFieldWidgets.getFieldValues(),
-                            ),
-                            SlideType.LEFT))
-                  }
+              onPressed: () {
+                if (nameFieldWidgets.allFieldsAreValid()) {
+                  Game game = Game(id: 'Game ' + (gameData.games.length + 1).toString(), players: nameFieldWidgets
+                                .getFieldValues()
+                                .map((name) => Player(name: name))
+                                .toSet());
+                  gameData.addGame(game);
+                  Navigator.of(context).pushReplacement(slideTransitionBuilder(
+                      GamePage(
+                        game: game
+                      ),
+                      SlideType.LEFT));
+                }
               },
               style: ButtonStyle(
                 side: MaterialStateProperty.all(
