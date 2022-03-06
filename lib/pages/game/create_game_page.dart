@@ -11,7 +11,7 @@ class CreateGamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NameFields nameFieldWidgets = NameFields();
+    NameFields nameFieldsWidget = NameFields();
     GameData gameData = context.read<GameData>();
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +30,7 @@ class CreateGamePage extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: nameFieldWidgets,
+            child: nameFieldsWidget,
           ),
           const SizedBox(
             height: 15,
@@ -42,12 +42,12 @@ class CreateGamePage extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 child: Text(
                   'Start game',
-                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 ),
               ),
               onPressed: () {
-                if (nameFieldWidgets.allFieldsAreValid()) {
-                  Game game = Game(id: 'Game ' + (gameData.games.length + 1).toString(), players: nameFieldWidgets
+                if (nameFieldsWidget.allFieldsAreValid()) {
+                  Game game = Game(id: 'Game ' + (gameData.games.length + 1).toString(), players: nameFieldsWidget
                                 .getFieldValues()
                                 .map((name) => Player(name: name))
                                 .toSet());
@@ -56,7 +56,7 @@ class CreateGamePage extends StatelessWidget {
                       GamePage(
                         game: game
                       ),
-                      SlideType.LEFT));
+                      SlideType.LEFT)).then((value) => gameData.saveGameData());
                 }
               },
               style: ButtonStyle(

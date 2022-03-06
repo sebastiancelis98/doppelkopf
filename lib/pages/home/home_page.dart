@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:doppelkopf/services/transitions/transition_utils.dart';
 import 'package:provider/src/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,14 +14,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GameData gameData = context.watch<GameData>();
-
-    SharedPreferences.getInstance().then((prefs) {
-      print('Loaded shared prefs');
-      if (gameData.games.isEmpty) {
-        
-        // gameData.addGame(Game(id: 'TestGame', players: {}));
-      }
-    });
+    gameData.loadGameData();
 
     return Scaffold(
       appBar: AppBar(
@@ -58,26 +50,57 @@ class Home extends StatelessWidget {
                   return Container();
                 }
                 Game game = gameData.games.elementAt(i - 1);
-                return Card(
-                  child: Row(
-                    children: [
-                      TextButton(
-                        child: Text("Game " + i.toString()),
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            slideTransitionBuilder(
-                                GamePage(game: game), SlideType.LEFT),
-                          );
-                        },
-                      ),
-                      Expanded(child: Container()),
-                      IconButton(
-                        onPressed: () {
-                          gameData.deleteGame(game);
-                        },
-                        icon: const Icon(Icons.delete),
-                      )
-                    ],
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(
+                          slideTransitionBuilder(
+                              GamePage(game: game), SlideType.LEFT),
+                        )
+                        .then((value) => gameData.saveGameData());
+                  },
+                  child: Card(
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text(game.getAbbreviatedFormattedDate()),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: game.players.map((e) {
+                                      return Container(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Column(
+                                          children: [
+                                            Text(e.name),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(e.points.toString())
+                                          ],
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                gameData.deleteGame(game);
+                              },
+                              icon: const Icon(Icons.delete),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

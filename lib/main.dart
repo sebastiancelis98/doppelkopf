@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => GameData(),
       child: const MaterialApp(
-        title: 'Doppelkopf App',
+        title: 'Doppelkopf Counter',
         debugShowCheckedModeBanner: false,
         home: Home(),
       ),

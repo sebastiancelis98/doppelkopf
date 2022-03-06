@@ -1,12 +1,13 @@
 import 'package:doppelkopf/model/game.dart';
 import 'package:doppelkopf/model/player.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class GamePage extends StatelessWidget {
 
-  Game game;
+  final Game game;
 
-  GamePage({Key? key, required this.game}) : super(key: key);
+  const GamePage({Key? key, required this.game}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class GamePage extends StatelessWidget {
         .toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(game.id),
+        title: Text("Game from " + DateFormat("EEE, MMM d").format(game.creationDate)),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
